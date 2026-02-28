@@ -2,28 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class Door : MonoBehaviour {
 	public Animator anim;
 
-	// Use this for initialization
-	void Start () {
-		anim = GetComponent<Animator> ();
+	[Tooltip("Tag of the object that can open the door")]
+	public string openerTag = "Player";
+
+	[Tooltip("Animator bool parameter to open the door")]
+	public string openParam = "DoorOpen";
+
+	[Tooltip("Animator bool parameter to close the door")]
+	public string closeParam = "DoorClose";
+
+	void Awake() {
+		if (anim == null) {
+			anim = GetComponentInChildren<Animator>();
+		}
+
+		if (anim == null) {
+			Debug.LogWarning(name + ": Animator not found on this GameObject or its children.");
+		}
 	}
 
-	void OnTriggerEnter (Collider other) {
-		anim.SetBool ("DoorOpen", true);
-		anim.SetBool ("DoorClose", false);
+	void OnTriggerEnter(Collider other) {
+		if (!other.CompareTag(openerTag)) return;
+		if (anim == null) return;
 
+		anim.SetBool(openParam, true);
+		anim.SetBool(closeParam, false);
 	}
 
-	void OnTriggerExit (Collider other) {
-		anim.SetBool ("DoorOpen", false);
-		anim.SetBool ("DoorClose", true);
+	void OnTriggerExit(Collider other) {
+		if (!other.CompareTag(openerTag)) return;
+		if (anim == null) return;
 
-	}
-
-	// Update is called once per frame
-	void Update () {
-		
+		anim.SetBool(openParam, false);
+		anim.SetBool(closeParam, true);
 	}
 }
