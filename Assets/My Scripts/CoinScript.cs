@@ -36,6 +36,7 @@ public class CoinScript : MonoBehaviour
             Debug.Log("F pressed. isPlayerInside: " + isPlayerInside);
             if (isPlayerInside)
             {
+                CoinManager.AddCoin();
                 Disappear();
             }
         }
