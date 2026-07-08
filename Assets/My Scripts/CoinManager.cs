@@ -8,7 +8,7 @@ public class CoinManager: MonoBehaviour
     // public WinScreen winScreen;
 
     private static int currentCoins;
-    private const int targetCoins = 2;
+    private const int targetCoins = 3;
 
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
