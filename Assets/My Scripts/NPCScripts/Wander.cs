@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MyScripts.NPCScripts
 {
-    public class Wander : MyScripts.NPCScripts.NPCComponent
+    public class Wander : NPCComponent
     {
         
         public Area area;
@@ -46,6 +46,11 @@ namespace MyScripts.NPCScripts
             }
 
             npc.Agent.SetDestination(area.GetRandomPointInArea());
+        }
+
+        public void OnFootstep()
+        {
+    // Left blank intentionally
         }
     }
 }

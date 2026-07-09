@@ -9,15 +9,16 @@ namespace MyScripts.NPCScripts
     {
         [HideInInspector] public NavMeshAgent Agent;
         [HideInInspector] public Animator Animator;
-        [HideInInspector] public NavMeshAgent agent;
-        [HideInInspector] public Animator animator;
 
         private void Start()
         {
             Agent = GetComponent<NavMeshAgent>();
             Animator = GetComponent<Animator>();
-            agent = Agent;
-            animator = Animator;
+
+            if (GetComponent<NPCAnimator>() == null)
+            {
+                gameObject.AddComponent<NPCAnimator>();
+            }
         }
 
         public float currentSpeed
