@@ -23,7 +23,6 @@ public class CoinManager: MonoBehaviour
         if (currentCoins >= targetCoins)
         {
             Debug.Log("Player has collected enough coins to win!");
-            Time.timeScale = 0f; // pause
             if (WinScreen.Instance != null)
             {
                 WinScreen.Instance.ShowWinScreen();

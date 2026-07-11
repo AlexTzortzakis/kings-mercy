@@ -1,3 +1,5 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,32 +7,84 @@ namespace MyScripts.NPCScripts
 {
     public class PlayerDetection : MonoBehaviour
     {
-        bool playerDetected = false;
-        
+        private bool playerDetected = false;
+        private bool isDialogueActive = false;
+        private Coroutine typingCoroutine;
 
-        // Update is called once per frame
+        private Transform playerTransform;
+
+        public TextMeshProUGUI dialogueText;
+        public string[] dialogue;
+        private int index;
+
+        public float wordSpeed = 0.002f;
+        private NPCLookAtPlayer npcLookScript;
+
         void Update()
         {
-            if (playerDetected && Keyboard.current != null && Keyboard.current.fKey.wasPressedThisFrame && !PlayerMovement.dialogueActive)
+            if (playerDetected && Keyboard.current.fKey.wasPressedThisFrame)
             {
-                PlayerMovement.dialogueActive = true;
-                Debug.Log("Player detected and F pressed");
+                // If dialogue hasn't started yet, open it
+                if (!isDialogueActive)
+                {
+                    
+                    StartDialogue();
+                    WinScreen.Instance.HideFButton();
+                }
+                // If dialogue is active and the current line finished typing, go to next line
+                else if (dialogueText.text == dialogue[index])
+                {
+                    NextLine();
+                }
+            }
+
+            
+        }
+
+        private void StartDialogue()
+        {
+            isDialogueActive = true;
+            WinScreen.Instance.ShowDialogue();
+            index = 0;
+            dialogueText.text = "";
+            typingCoroutine = StartCoroutine(TypeDialogue());
+        }
+
+        IEnumerator TypeDialogue()
+        {
+            dialogueText.text = "";
+            foreach (char letter in dialogue[index].ToCharArray())
+            {
+                dialogueText.text += letter;
+                yield return new WaitForSeconds(wordSpeed);
             }
         }
 
-        void newDialogue(string dialogue)
+        public void NextLine()
         {
-            // Implement your dialogue system here
-            Debug.Log("Starting dialogue: " + dialogue);
-
+            if (index < dialogue.Length - 1)
+            {
+                index++;
+                if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+                typingCoroutine = StartCoroutine(TypeDialogue());
+            }
+           
         }
+
+        
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
             {
                 playerDetected = true;
-                Debug.Log("Player detected");
+
+                if (GetComponentInParent<NPC>() is NPC npc && npc.Agent != null)
+                {
+                    npc.Agent.isStopped = true;
+                }
+                WinScreen.Instance.FButton.SetActive(true);
+                Debug.Log("Player detected. NPC stopped.");
             }
         }
 
@@ -39,7 +93,13 @@ namespace MyScripts.NPCScripts
             if (other.CompareTag("Player"))
             {
                 playerDetected = false;
-                Debug.Log("Player lost");
+
+                if (GetComponentInParent<NPC>() is NPC npc && npc.Agent != null)
+                {
+                    npc.Agent.isStopped = false;
+                }
+                if (npcLookScript != null) npcLookScript.StopLooking();
+                WinScreen.Instance.HideAll();
             }
         }
     }

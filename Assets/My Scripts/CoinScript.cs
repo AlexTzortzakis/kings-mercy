@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class CoinScript : MonoBehaviour
 {
     private bool isPlayerInside;
+    [SerializeField] private AudioClip coinPickupSound;
     private void Start()
     {
         
@@ -12,11 +13,10 @@ public class CoinScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("OnTriggerEnter called with: " + other.name);
         if (other.CompareTag("Player"))
         {
             isPlayerInside = true;
-            Debug.Log("Player entered coin collider");
+            WinScreen.Instance.ShowFButtonPick();
         }
     }
 
@@ -25,7 +25,7 @@ public class CoinScript : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInside = false;
-            Debug.Log("Player exited coin collider");
+            WinScreen.Instance.HideFButton();
         }
     }
 
@@ -33,10 +33,11 @@ public class CoinScript : MonoBehaviour
     {
         if (Keyboard.current.fKey.wasPressedThisFrame)
         {
-            Debug.Log("F pressed. isPlayerInside: " + isPlayerInside);
             if (isPlayerInside)
             {
+                SFXManager.Instance.PlaySound(coinPickupSound, transform);
                 CoinManager.AddCoin();
+                WinScreen.Instance.HideFButton();
                 Disappear();
             }
         }

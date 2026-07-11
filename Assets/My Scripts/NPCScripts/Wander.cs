@@ -6,6 +6,7 @@ namespace MyScripts.NPCScripts
     {
         
         public Area area;
+        public bool isTalking = false;
 
         private void Start()
         {
@@ -50,7 +51,7 @@ namespace MyScripts.NPCScripts
 
         public void OnFootstep()
         {
-    // Left blank intentionally
+    
         }
     }
 }

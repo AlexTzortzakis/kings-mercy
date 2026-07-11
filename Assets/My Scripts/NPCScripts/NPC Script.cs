@@ -9,16 +9,14 @@ namespace MyScripts.NPCScripts
     {
         [HideInInspector] public NavMeshAgent Agent;
         [HideInInspector] public Animator Animator;
+        internal bool isTalking;
 
         private void Start()
         {
             Agent = GetComponent<NavMeshAgent>();
             Animator = GetComponent<Animator>();
-
-            if (GetComponent<NPCAnimator>() == null)
-            {
-                gameObject.AddComponent<NPCAnimator>();
-            }
+            Agent.isStopped = false;
+            
         }
 
         public float currentSpeed
