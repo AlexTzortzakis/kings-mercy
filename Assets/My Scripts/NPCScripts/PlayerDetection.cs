@@ -18,20 +18,17 @@ namespace MyScripts.NPCScripts
         private int index;
 
         public float wordSpeed = 0.002f;
-        private NPCLookAtPlayer npcLookScript;
 
         void Update()
         {
             if (playerDetected && Keyboard.current.fKey.wasPressedThisFrame)
             {
-                // If dialogue hasn't started yet, open it
                 if (!isDialogueActive)
                 {
                     
                     StartDialogue();
                     WinScreen.Instance.HideFButton();
                 }
-                // If dialogue is active and the current line finished typing, go to next line
                 else if (dialogueText.text == dialogue[index])
                 {
                     NextLine();
@@ -98,7 +95,6 @@ namespace MyScripts.NPCScripts
                 {
                     npc.Agent.isStopped = false;
                 }
-                if (npcLookScript != null) npcLookScript.StopLooking();
                 WinScreen.Instance.HideAll();
             }
         }

@@ -10901,7 +10901,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1066650803}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -24808,6 +24808,11 @@ PrefabInstance:
       propertyPath: dialogueText
       value: 
       objectReference: {fileID: 666758636}
+    - target: {fileID: 3525751113337620235, guid: 35d1d05d0639c9d4b9b7817dc90d373d, type: 3}
+      propertyPath: 'dialogue.Array.data[2]'
+      value: This dump is what's left of this village but there might be some coin
+        hidden in the rubble if Lord wills it..
+      objectReference: {fileID: 0}
     - target: {fileID: 3999296716398774082, guid: 35d1d05d0639c9d4b9b7817dc90d373d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 589.5867
